@@ -91,21 +91,24 @@ if uploaded is not None:
         silent = st.slider(si_label, 1000, 4000, value=1000,
                            step=1000, help=si_help)
 
-        submit_btn = st.form_submit_button(label='Modificar')
+        submit_btn = st.form_submit_button(label='Modificar audio')
+    
+    if submit_btn:
+        st.markdown("---")
+        st.markdown("## Reproducción & Descarga")
 
-    chunks = split_on_silence(
-        sound, min_silence_len=silent, silence_thresh=threshold)
+        chunks = split_on_silence(
+            sound, min_silence_len=silent, silence_thresh=threshold)
 
-    modificado = chunks[0]
-    for chunk in chunks[1:]:
-        modificado = modificado.append(chunk)
+        modificado = chunks[0]
+        for chunk in chunks[1:]:
+            modificado = modificado.append(chunk)
 
-    fp_new = temp.joinpath("modificado.mp3")
-    modificado.export(fp_new)
-    st.markdown(
-        f"Con *Umbral de Silencio* {threshold} y *Duración Mínima de Silencio* {silent} el archivo cargado fue dividido en {len(chunks)} partes antes de unir.")
+        fp_new = temp.joinpath("modificado.mp3")
+        modificado.export(fp_new)
+        st.markdown(
+            f"Con *Umbral de Silencio* {threshold} y *Duración Mínima de Silencio* {silent} el archivo cargado fue dividido en {len(chunks)} partes antes de unir.")
 
-    st.markdown("---")
-    st.markdown("## Reproducción & Descarga")
-    st.audio(str(fp_new), format=uploaded.type)
-    st.caption("Descargue el audio haciendo click derecho en el reproductor")
+    
+        st.audio(str(fp_new), format=uploaded.type)
+        st.caption("Descargue el audio haciendo click derecho en el reproductor")
