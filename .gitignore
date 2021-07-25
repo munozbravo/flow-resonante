@@ -1,4 +1,4 @@
 temp*
 *.DS_Store*
 secrets.toml
-
+.vscode
